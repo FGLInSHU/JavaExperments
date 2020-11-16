@@ -10,26 +10,18 @@ import java.util.List;
 import java.util.Set;
 
 public class MainReactor extends Reactor {
-    private Selector selector;
     private final int port;
     //serverSocketChannel管理selector
+
     private ServerSocketChannel serverSocketChannel;
 
     public MainReactor(int port) throws IOException {
         this.port = port;
-        selector = Selector.open();
+        this.selector = Selector.open();
         serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.configureBlocking(false);
-        serverSocketChannel.socket().bind(new InetSocketAddress(port), 1024);
+        serverSocketChannel.socket().bind(new InetSocketAddress("localhost", 8888), 1024);
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
     }
-
-//    public boolean addSubReactor(SubReactor subReactor){
-//        return subReactorList.add(subReactor);
-//    }
-
-
-
-
 
 }

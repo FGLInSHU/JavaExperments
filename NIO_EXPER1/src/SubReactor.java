@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class SubReactor extends Reactor{
-    private Selector selector;
+
     public void addSelector(Selector selector){
         this.selector = selector;
     }
