@@ -13,6 +13,7 @@ public class HelloController {
     @ResponseBody
     public String hello() {
         System.out.println("Rcv request");
+
         return "hello";
     }
 }
