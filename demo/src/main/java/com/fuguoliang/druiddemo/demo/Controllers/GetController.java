@@ -22,6 +22,7 @@ public class GetController {
     @RequestMapping("/put")
     public String get() {
         int res = userMapper.insert(new User(1, "张三", 10, 0));
+        System.out.println("datasource class is :" + dataSource.getClass().toString());
         System.out.println("datasource is:" + dataSource);
         return  "res is:" + res;
     }
@@ -29,6 +30,8 @@ public class GetController {
     @RequestMapping("/find")
     public String findAll() {
         User user = userMapper.selectByPrimaryKey(1);
+        System.out.println("datasource class is :" + dataSource.getClass().toString());
+
         System.out.println("datasource is:" + dataSource);
         return "find res is:" + user;
     }
