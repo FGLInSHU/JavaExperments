@@ -10,16 +10,16 @@
   <sql id="Base_Column_List">
     id, `name`, age, gender
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.fuguoliang.druiddemo.demo.model.User" useGeneratedKeys="true">
     insert into user (`name`, age, gender
       )
