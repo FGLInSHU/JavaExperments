@@ -21,7 +21,7 @@ public class UrlFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("[filter] init " + new Date());
         whiteUrls = new ArrayList<String>();
-        whiteUrls.add("/hello/find");
+        whiteUrls.add("/hello/user");
         whiteUrls.add("/hello/put");
     }
 

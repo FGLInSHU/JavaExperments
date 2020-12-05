@@ -3,10 +3,15 @@ package com.fuguoliang.druiddemo.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+/**
+ * @author FGL_S
+ */
 @SpringBootApplication
 @EnableWebMvc
+@EnableTransactionManagement
 @ServletComponentScan(basePackages = "com.fuguoliang.druiddemo.demo.filters")
 public class DemoApplication {
 
