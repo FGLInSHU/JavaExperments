@@ -15,14 +15,13 @@ import java.util.Date;
 @WebFilter(filterName = "urlFilter",urlPatterns = "/*")
 public class UrlFilter implements Filter {
     private static String LoginUrl = "/login";
-    private static String DefaultUrl = "/hello/find";
+    private static String DefaultUrl = "/hello/user";
     private static ArrayList<String> whiteUrls;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("[filter] init " + new Date());
         whiteUrls = new ArrayList<String>();
         whiteUrls.add("/hello/user");
-        whiteUrls.add("/hello/put");
     }
 
     @Override
