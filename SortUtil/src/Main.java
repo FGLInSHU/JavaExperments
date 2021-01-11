@@ -1,7 +1,11 @@
 // 本题为考试单行多行输入输出规范示例，无需提交，不计分。
 import java.util.Scanner;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Main {
     public static void main(String[] args) {
+        IntegerUtil.equalsTest();
+        ReentrantLock
         Scanner in = new Scanner(System.in);
         while (in.hasNextLine()) {// 注意，如果输入是多个测试用例，请通过while循环处理多个测试用例
           try {

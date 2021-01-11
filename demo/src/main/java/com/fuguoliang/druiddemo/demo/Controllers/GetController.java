@@ -1,6 +1,7 @@
 package com.fuguoliang.druiddemo.demo.Controllers;
 
 import com.fuguoliang.druiddemo.demo.annotations.LogRequired;
+import com.fuguoliang.druiddemo.demo.annotations.UseRedisCache;
 import com.fuguoliang.druiddemo.demo.mapper.OperationLogsMapper;
 import com.fuguoliang.druiddemo.demo.mapper.UserMapper;
 import com.fuguoliang.druiddemo.demo.model.OperationLogs;
@@ -46,6 +47,7 @@ public class GetController {
     }
 
     @LogRequired
+    @UseRedisCache(prefix = "userId", paramName = "id")
     @RequestMapping(value="/user", method = RequestMethod.GET)
     public String findAll() {
         if (redisUtil.hasKey("user"+1)) {
