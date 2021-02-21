@@ -3,39 +3,41 @@ import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
+
     public static void main(String[] args) {
         IntegerUtil.equalsTest();
-        ReentrantLock
+
         Scanner in = new Scanner(System.in);
-        while (in.hasNextLine()) {// 注意，如果输入是多个测试用例，请通过while循环处理多个测试用例
-          try {
-              int b = Integer.parseInt(in.nextLine());
-              if(b < 1){
-                  System.out.println("ERROR");
-                  continue;
-              }
-              if (checkNumber(b + "")) {
-                  System.out.println(b);
-              } else {
-                  int high = b, low = b;
-                  while (true) {
-                      high++;
-                      low--;
-                      if (checkNumber(high + "") || checkNumber(low + "")) {
-                          if (checkNumber(high + "") && checkNumber(low + "")) {
-                              System.out.println(low + "," + high);
-                          } else if (checkNumber(high + "")) {
-                              System.out.println(high);
-                          } else if (checkNumber(low + "")) {
-                              System.out.println(low);
-                          }
-                          break;
-                      }
-                  }
-              }
-          }catch(Exception e){
-              System.out.println("ERROR");
-          }
+        /* 注意，如果输入是多个测试用例，请通过while循环处理多个测试用例 */
+        while (in.hasNextLine()) {
+            try {
+                int b = Integer.parseInt(in.nextLine());
+                if (b < 1) {
+                    System.out.println("ERROR");
+                    continue;
+                }
+                if (checkNumber(b + "")) {
+                    System.out.println(b);
+                } else {
+                    int high = b, low = b;
+                    while (true) {
+                        high++;
+                        low--;
+                        if (checkNumber(high + "") || checkNumber(low + "")) {
+                            if (checkNumber(high + "") && checkNumber(low + "")) {
+                                System.out.println(low + "," + high);
+                            } else if (checkNumber(high + "")) {
+                                System.out.println(high);
+                            } else if (checkNumber(low + "")) {
+                                System.out.println(low);
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("ERROR");
+            }
         }
     }
     public static boolean checkNumber(String in){

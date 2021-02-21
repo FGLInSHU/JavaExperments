@@ -3,8 +3,11 @@ package com.fuguoliang.druiddemo.demo.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,10 +16,38 @@ import java.util.concurrent.TimeUnit;
 @Component
 @EnableCaching
 public class RedisUtil {
+    private static final String LockScript = "local lock_key = KEYS[1]\n" +
+            "local lock_val = ARGV[1]\n" +
+            "\n" +
+            "if redis.call('set', lock_key, lock_val, 'NX PX 10000') == OK\n" +
+            "then\n" +
+            "    return 1\n" +
+            "else\n" +
+            "    return 0\n" +
+            "end";
+    private static final String UnlockScript = "local lock_key = KEYS[1]\n" +
+            "local lock_val = ARGV[1]\n" +
+            "\n" +
+            "if redis.call('get', lock_key) == lock_val\n" +
+            "then\n" +
+            "    return redis.call(\"del\", lock_key)\n" +
+            "else\n" +
+            "    return 0\n" +
+            "end\n";
+    private static final DefaultRedisScript<Long> RedisLockScript = new DefaultRedisScript<>(LockScript.toString(), Long.class);
+    private static final DefaultRedisScript<Long> RedisUnlockScript = new DefaultRedisScript<>(UnlockScript.toString(), Long.class);
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+
+    public Long incr(String lockKey) {
+        if (hasKey(lockKey)) {
+            return redisTemplate.opsForValue().increment(lockKey);
+        }
+        set(lockKey, 1L);
+        return 1L;
+    }
     /**
      * 指定缓存失效时间
      * @param key 键
@@ -35,6 +66,25 @@ public class RedisUtil {
         }
     }
 
+    public boolean tryLock(String lockKey, String lockVal) {
+        try {
+           // Long result  = redisTemplate.execute(RedisLockScript, Collections.singletonList(lockKey), lockVal);
+            return redisTemplate.opsForValue().setIfAbsent(lockKey, lockVal, Duration.ofSeconds(10));
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return false;
+    }
+
+    public boolean releaseLock(String lockKey, String lockVal) {
+        Long result  = redisTemplate.execute(RedisUnlockScript, Collections.singletonList(lockKey), lockVal);
+        if (null !=  result && 1 == result) {
+            return true;
+        }
+        return false;
+    }
     /**
      * 根据key 获取过期时间
      * @param key 键 不能为null

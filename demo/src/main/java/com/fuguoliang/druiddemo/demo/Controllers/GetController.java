@@ -39,8 +39,6 @@ public class GetController {
         User user = new User(id, "张三", 10, 0);
         int res = userMapper.insert(user);
         res = operationLogsMapper.insert(new OperationLogs(null, id, "insert a user", null));
-        boolean res_set = redisUtil.set("user" + id, user);
-        System.out.println("[redis] set res is:" + res_set);
         System.out.println("datasource class is :" + dataSource.getClass().toString());
         System.out.println("datasource is:" + dataSource);
         return  "res is:" + res;
@@ -50,10 +48,6 @@ public class GetController {
     @UseRedisCache(prefix = "userId", paramName = "id")
     @RequestMapping(value="/user", method = RequestMethod.GET)
     public String findAll() {
-        if (redisUtil.hasKey("user"+1)) {
-            System.out.println("[redis] user cache");
-            return redisUtil.get("user" + 1).toString();
-        }
         User user = userMapper.selectByPrimaryKey(1);
         operationLogsMapper.insert(new OperationLogs(null, 1, "find a user", null));
         System.out.println("datasource class is :" + dataSource.getClass().toString());

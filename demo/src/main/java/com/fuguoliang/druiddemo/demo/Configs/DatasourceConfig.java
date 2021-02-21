@@ -23,8 +23,7 @@ public class DatasourceConfig {
     }
 
     @Bean(name = "userSqlSessionFactory")
-    public SqlSessionFactory primarySqlSessionFactory(@Qualifier("userDatasource")
-                                                              DataSource dataSource) throws Exception {
+    public SqlSessionFactory primarySqlSessionFactory(@Qualifier("userDatasource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         final Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*Mapper.xml");

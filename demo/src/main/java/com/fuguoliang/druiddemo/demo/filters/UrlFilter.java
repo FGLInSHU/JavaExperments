@@ -22,6 +22,7 @@ public class UrlFilter implements Filter {
         System.out.println("[filter] init " + new Date());
         whiteUrls = new ArrayList<String>();
         whiteUrls.add("/hello/user");
+        whiteUrls.add("/user/vote");
     }
 
     @Override
